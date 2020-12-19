@@ -21,14 +21,15 @@ public class UserController extends User {
 	
 	
 	User user;
-	Config connectDb;
-	 
+	Config DataBaseConn;
+	
 	 Scanner scanner = new Scanner(System.in);
 	public UserController() {
 		
 		
-			connectDb = new Config("jdbc:mysql://localhost/got_talent", "root", "0000");
-	}
+			DataBaseConn = new Config("jdbc:mysql://localhost/gottalent", "root", "0000");
+
+ }
 
 	
 	
@@ -41,66 +42,58 @@ public class UserController extends User {
 		Scanner reader2 = new Scanner(System.in);
 		Scanner reader3 = new Scanner(System.in);
 		
-		 System.out.print("Enter User id, firstname, lastname, Email,tel : ");
-		 
-		 
+		 System.out.print("Enter votre user_id ");
 		  int id= reader.nextInt();
+		  System.out.print("Enter votre firstname ");
 		  String firstname= reader3.nextLine();
+		  System.out.print("Enter votre lastname ");
 		  String lastname= reader2.nextLine();
+		  System.out.print("Enter votre email ");
 		  String email = reader2.nextLine();
+		  System.out.print("Enter votre tel ");
 		  String tel = reader2.nextLine();
-		 UserController user = new UserController(id,firstname,lastname,email,tel); 
-		 
-	
-		
-		String sql = "INSERT INTO user (id, first_name, last_name, email,phone) VALUES (?, ?, ?,?,?)";
+		  UserController user = new UserController(id,firstname,lastname,email,tel); 
+		  String sql = "INSERT INTO users (user_id, first_name, last_name, email,phone) VALUES (?, ?, ?,?,?)";
 	 
-	PreparedStatement statement = connectDb.connec().prepareStatement(sql);
-	statement.setLong(1, id);
-	statement.setString(2, firstname);
-	statement.setString(3, lastname);
-	statement.setString(4, email);
-	statement.setString(5, tel);
-	 
-	int rowsInserted = statement.executeUpdate();
-	if (rowsInserted > 0) {
-	    System.out.println("A new user was inserted successfully!");
-	    
-	    
-	 
-	    
+	    PreparedStatement statement = DataBaseConn.connect().prepareStatement(sql);
+    	statement.setLong(1, id);
+	    statement.setString(2, firstname);
+	    statement.setString(3, lastname);
+	    statement.setString(4, email);
+	    statement.setString(5, tel);
+	    int rowsInserted = statement.executeUpdate();
+	    if (rowsInserted > 0) {
+	     System.out.println("votre inscription a été validée");
+	  
 	}
 	
 	}	
 
-	
-
-	
 	////Update User
 	
 	public void updateUser() throws SQLException {
 		
 		
-		Scanner reader = new Scanner(System.in);
-		  System.out.println("Enter your id:");
+		  Scanner reader = new Scanner(System.in);
+		  System.out.println("Enter votre user_id ");
 		  String ido = reader.nextLine();
 		  long id = Long.parseLong(ido);
-		  System.out.println("Enter your first name:");
+		  System.out.println("Enter votre firstname");
 		  String fname = reader.nextLine();
-		  System.out.println("Enter your last name:");
+		  System.out.println("Enter votre lastname ");
 		  String lname = reader.nextLine();
 		  System.out.println("Enter your email:");
 		  String email = reader.nextLine();
-		  System.out.println("Enter your phone number:");
+		  System.out.println("Enter votre tel");
 		  String tel = reader.nextLine();
-          String sqlq =  "update user set first_name = '"+ fname +"', last_name = '"+ lname +"', email = '"+ email +"', phone = '"+ tel +"' where id = '"+ id +"'";
+          String sqlq =  "update users set first_name = '"+ fname +"', last_name = '"+ lname +"', email = '"+ email +"', phone = '"+ tel +"' where user_id = '"+ id +"'";
 		                    
-		  PreparedStatement statement = connectDb.connec().prepareStatement(sqlq);
+		  PreparedStatement statement = DataBaseConn.connect().prepareStatement(sqlq);
 			
 			statement.executeUpdate(sqlq);
 		 
 		
-		    System.out.println("Your informations are successfully updated");
+		    System.out.println("Your account is updated");
 
 		
 	}
@@ -119,15 +112,15 @@ public class UserController extends User {
 		
 	
 		
-		String sql2 = "select * from user where id = '"+ idScan +"'";
+		String sql2 = "select * from users where user_id = '"+ idScan +"'";
 		
-		java.sql.Statement stm2 = connectDb.connec().createStatement();
+		java.sql.Statement stm2 = DataBaseConn.connect().createStatement();
 		
 		ResultSet res1 = stm2.executeQuery(sql2);
 		
 		while(res1.next()) {
 			
-			System.out.println("Your Informations are : " + res1.getLong("id")+" "+res1.getString("first_name")+" "+res1.getString("last_name")+" "+res1.getString("email")+" "+res1.getString("phone"));
+			System.out.println("Your Informations are : " + res1.getLong("user_id")+" "+res1.getString("first_name")+" "+res1.getString("last_name")+" "+res1.getString("email")+" "+res1.getString("phone"));
 			
 		}
 		}

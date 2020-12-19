@@ -1,66 +1,152 @@
 package app.modeles;
 
-public class participation {
+import java.time.LocalDateTime;
+
+
 	
 	
-	public class Participation {
-		private int id;
-		private String description;
-		private String show_startime;
-		private String show_end;
-		private String attached;
-		private boolean is_accepted;
+	public class participation {
+		private long iduser;
+		private Long categoryID;
+		private String descParti;
+		private String timeStart;
+		private  String timeEnd;
+		private String attachedFile;
+		private boolean isAccepted;
 		
-		public Participation() {
-			super();
-		}
-		public Participation(int id, String description, String show_startime, String show_end, String attached,
-				boolean is_accepted) {
-			super();
-			this.id = id;
-			this.description = description;
-			this.show_startime = show_startime;
-			this.show_end = show_end;
-			this.attached = attached;
-			this.is_accepted = is_accepted;
-		}
-		public int getId() {
-			return id;
-		}
-		public void setId(int id) {
-			this.id = id;
-		}
-		public String getDescription() {
-			return description;
-		}
-		public void setDescription(String description) {
-			this.description = description;
-		}
-		public String getShow_startime() {
-			return show_startime;
-		}
-		public void setShow_startime(String show_startime) {
-			this.show_startime = show_startime;
-		}
-		public String getShow_end() {
-			return show_end;
-		}
-		public void setShow_end(String show_end) {
-			this.show_end = show_end;
-		}
-		public String getAttached() {
-			return attached;
-		}
-		public void setAttached(String attached) {
-			this.attached = attached;
-		}
-		public boolean isIs_accepted() {
-			return is_accepted;
-		}
-		public void setIs_accepted(boolean is_accepted) {
-			this.is_accepted = is_accepted;
+
+	
+
+
+
+		public long getIduser() {
+			return iduser;
 		}
 
+
+
+
+
+
+		public void setIduser(long iduser) {
+			this.iduser = iduser;
+		}
+
+
+
+
+
+
+		public Long getCategoryID() {
+			return categoryID;
+		}
+
+
+
+
+
+
+		public void setCategoryID(Long categoryID) {
+			this.categoryID = categoryID;
+		}
+
+
+
+
+
+
+		public String getDescParti() {
+			return descParti;
+		}
+
+
+
+
+
+
+		public void setDescParti(String descParti) {
+			this.descParti = descParti;
+		}
+
+
+
+		public String getTimeStart() {
+			return timeStart;
+		}
+
+
+
+
+
+
+		public void setTimeStart(String timeStart) {
+			this.timeStart = timeStart;
+		}
+
+
+
+
+
+
+		public String getTimeEnd() {
+			return timeEnd;
+		}
+
+
+
+
+
+
+		public void setTimeEnd(String timeEnd) {
+			this.timeEnd = timeEnd;
+		}
+
+
+
+
+
+
+		public String getAttachedFile() {
+			return attachedFile;
+		}
+
+
+
+
+
+
+		public void setAttachedFile(String attachedFile) {
+			this.attachedFile = attachedFile;
+		}
+
+
+
+
+
+
+		public boolean isAccepted() {
+			return isAccepted;
+		}
+
+
+
+
+
+
+		public void setAccepted(boolean isAccepted) {
+			this.isAccepted = isAccepted;
+		}
+
+
+
+
+
+
+		@Override
+		public String toString() {
+			return "ParticipationModels [userID=" + iduser + ", categoryID=" + categoryID + ", descParti=" + descParti
+					+ ", timeStart=" + timeStart + ", timeEnd=" + timeEnd + ", attachedFile=" + attachedFile
+					+ ", isAccepted=" + isAccepted + "]";
+		}
 	}
 
-}
