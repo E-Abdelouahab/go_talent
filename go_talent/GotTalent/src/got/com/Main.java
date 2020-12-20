@@ -19,7 +19,7 @@ public class Main {
 			Scanner reader = new Scanner(System.in);
 			Scanner reader2 = new Scanner(System.in);
 			Scanner reader3 = new Scanner(System.in);
-			System.out.println("1-Incription 2-modification de mon compte 3-rechrecher un compte 4- ajouter un demande de participation  ");
+			System.out.println("1-Incription \n2-modification de mon compte  \n3-rechrecher un compte \n4- ajouter un demande de participation  ");
 			int choice = reader.nextInt();
 			switch(choice){
 			case 1:
@@ -35,6 +35,7 @@ public class Main {
 					}
 		 			
 				}
+				 break;
 			case 2 :
 				UserController user1 = new UserController();
 				try {
@@ -53,6 +54,7 @@ public class Main {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				break;
 			case 4 : 
             	ParticipationController parti  = new ParticipationController();
 				
@@ -64,7 +66,7 @@ public class Main {
 				}
 		
 			
-	 		
+				break;
 				
 			
 			

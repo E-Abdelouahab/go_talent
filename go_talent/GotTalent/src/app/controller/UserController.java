@@ -1,6 +1,7 @@
 package app.controller;
 
 import java.sql.SQLException;
+import java.util.Random;
 import java.util.Scanner;
 
 
@@ -31,6 +32,11 @@ public class UserController extends User {
 
  }
 
+	//phone number regex
+	  String phoneRegex = "^(\\+212|0)([ \\-_/]*)(\\d[ \\-_/]*){9}$";
+	//email regex
+	  String emilRegex = "^(.+)@(.+)$";
+	
 	
 	
 	
@@ -42,16 +48,39 @@ public class UserController extends User {
 		Scanner reader2 = new Scanner(System.in);
 		Scanner reader3 = new Scanner(System.in);
 		
-		 System.out.print("Enter votre user_id ");
-		  int id= reader.nextInt();
-		  System.out.print("Enter votre firstname ");
+		 
+		  Random random = new Random();
+          int id = (int)(random.nextDouble()*1000000000L);
+		  System.out.print("Enter votre firstname : ");
 		  String firstname= reader3.nextLine();
-		  System.out.print("Enter votre lastname ");
+		  if(firstname.length() < 3) {
+			  System.out.println("*********** FirstName format incorrect  ************");
+			  AddUser();
+		  }
+		  System.out.print("Enter votre lastname : ");
 		  String lastname= reader2.nextLine();
-		  System.out.print("Enter votre email ");
-		  String email = reader2.nextLine();
+		  if(lastname.length() < 3) {
+			  System.out.println("***********  LastName format incorrect  ***********");
+			  AddUser();
+		  }
+		  System.out.print("Enter votre email : ");
+	      String email = reader2.nextLine();
+		  if(email.matches(emilRegex)) {
+        	  //correct email format
+          }else {
+        	  System.out.println("***********  email format incorrect  ***********");
+        	  AddUser();
+        	 
+          }
 		  System.out.print("Enter votre tel ");
 		  String tel = reader2.nextLine();
+		  if(tel.matches(phoneRegex)) {
+        	  //correct email format
+          }else {
+        	  System.out.println("***********   Phone format incorrect ************");
+        	  AddUser();
+        	 
+          }
 		  UserController user = new UserController(id,firstname,lastname,email,tel); 
 		  String sql = "INSERT INTO users (user_id, first_name, last_name, email,phone) VALUES (?, ?, ?,?,?)";
 	 
@@ -63,7 +92,7 @@ public class UserController extends User {
 	    statement.setString(5, tel);
 	    int rowsInserted = statement.executeUpdate();
 	    if (rowsInserted > 0) {
-	     System.out.println("votre inscription a été validée");
+	     System.out.println("~~~~~~~~~~~~~~~~~~~~~~>>>  * votre inscription a été validée *  <<<~~~~~~~~~~~~~~~~~~~~~~");
 	  
 	}
 	
@@ -75,27 +104,67 @@ public class UserController extends User {
 		
 		
 		  Scanner reader = new Scanner(System.in);
-		  System.out.println("Enter votre user_id ");
+		  System.out.println("Enter votre id ");
 		  String ido = reader.nextLine();
 		  long id = Long.parseLong(ido);
-		  System.out.println("Enter votre firstname");
-		  String fname = reader.nextLine();
-		  System.out.println("Enter votre lastname ");
-		  String lname = reader.nextLine();
-		  System.out.println("Enter your email:");
-		  String email = reader.nextLine();
-		  System.out.println("Enter votre tel");
+		  String sqlD = "select * from participation where user_id = '"+ id +"'";
+          PreparedStatement stmD = DataBaseConn.connect().prepareStatement(sqlD);
+			
+			ResultSet resD = stmD.executeQuery();
+			if(resD.next()) {
+				
+			
+		  System.out.print("Enter votre firstname : ");
+		  String fname= reader.nextLine();
+		  if(fname.length() < 3) {
+			  System.out.println("*********** FirstName format incorrect  ************");
+			  AddUser();
+		  }
+		  System.out.print("Enter votre lastname : ");
+		  String lname= reader.nextLine();
+		  if(lname.length() < 3) {
+			  System.out.println("***********  LastName format incorrect  ***********");
+			  AddUser();
+		  }
+		  System.out.print("Enter votre email : ");
+	      String email = reader.nextLine();
+		  if(email.matches(emilRegex)) {
+        	  //correct email format
+          }else {
+        	  System.out.println("***********  email format incorrect  ***********");
+        	  AddUser();
+        	 
+          }
+		  System.out.print("Enter votre tel ");
 		  String tel = reader.nextLine();
+		  if(tel.matches(phoneRegex)) {
+        	  //correct email format
+          }else {
+        	  System.out.println("***********   Phone format incorrect ************");
+        	  AddUser();
+        	 
+          }
           String sqlq =  "update users set first_name = '"+ fname +"', last_name = '"+ lname +"', email = '"+ email +"', phone = '"+ tel +"' where user_id = '"+ id +"'";
 		                    
 		  PreparedStatement statement = DataBaseConn.connect().prepareStatement(sqlq);
 			
 			statement.executeUpdate(sqlq);
-		 
+			String sql2 = "select * from users where user_id = '"+ id +"'";
+			
+			java.sql.Statement stm2 = DataBaseConn.connect().createStatement();
+			
+			ResultSet res1 = stm2.executeQuery(sql2);
 		
-		    System.out.println("Your account is updated");
+		    System.out.println("~~~~~~~~~~~~~~~~~~~~~~>>>  * Votre compte est mis à jour  *  <<<~~~~~~~~~~~~~~~~~~~~~~");
+			while(res1.next()) {
+				
+				System.out.println("votre informations: \n Your id :"+res1.getString("user_id")+" \n Your firstName : "+res1.getString("first_name")+"\n Your LastName :"+res1.getString("last_name")+" \n Your Email:"+res1.getString("email")+"\n Your Phone : "+res1.getString("phone"));
+				
+			}
 
-		
+		///
+			}else {System.out.println("********************* Id user utilisateur introuvable **********************");
+			}
 	}
 	
 	
@@ -104,7 +173,7 @@ public class UserController extends User {
         public void findUserById () throws SQLException {
 	    Scanner scanner = new Scanner(System.in);
 		
-		System.out.println("Enter the User ID to Update :");
+		System.out.println("Enter votre id :");
 		
 		long idScan = scanner.nextLong();
 		
@@ -118,10 +187,12 @@ public class UserController extends User {
 		
 		ResultSet res1 = stm2.executeQuery(sql2);
 		
-		while(res1.next()) {
+		if (res1.next()) {
 			
-			System.out.println("Your Informations are : " + res1.getLong("user_id")+" "+res1.getString("first_name")+" "+res1.getString("last_name")+" "+res1.getString("email")+" "+res1.getString("phone"));
+			System.out.println("votre informations: \n Your id :"+res1.getString("user_id")+" \n Your firstName : "+res1.getString("first_name")+"\n Your LastName :"+res1.getString("last_name")+" \n Your Email:"+res1.getString("email")+"\n Your Phone : "+res1.getString("phone"));
 			
+		}
+		else {System.out.println("********************* Id user utilisateur introuvable **********************");
 		}
 		}
 		

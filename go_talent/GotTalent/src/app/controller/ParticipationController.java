@@ -15,11 +15,14 @@ public class ParticipationController {
 	Config DataBaseConn;
 	 
 	 Scanner scanner = new Scanner(System.in);
+	 Scanner scanner1 = new Scanner(System.in);
 	
 	public ParticipationController() {
 		
 		DataBaseConn = new Config("jdbc:mysql://localhost/gottalent", "root", "0000");
 	}
+	
+	  String categoriesRegex = "^[1-5]{1}$";
 			
 		/////////////////////add participation
 			public void AddParti () throws SQLException {
@@ -33,13 +36,28 @@ public class ParticipationController {
 				demande.setIduser(iduser);
 				
 				
-				String sqlD = "select * from participation where id_user = '"+ iduser +"'";
+				String sqlD = "select * from participation where user_id = '"+ iduser +"'";
+	            PreparedStatement stmD = DataBaseConn.connect().prepareStatement(sqlD);
+				ResultSet resD = stmD.executeQuery();
+				if(resD.next()) {
+				
+				
+			
 				
 				
 				
-				System.out.println("choisir votre categories id :");
+				System.out.println("choisir votre categories id : \n 1-dance \n 2-comidia");
 				
-				Long cateid = scanner.nextLong();
+				Long cateid = scanner.nextLong(); 
+				if(cateid==1 ||cateid==2 ||cateid==3 ||cateid==4 ||cateid==5 ||cateid==6 ) {
+		        	  //correct email format
+		          }else {
+		        	  System.out.println("***********   Cette catégorie n'a pas été trouvée  ************");
+		        	  AddParti();
+		        	 
+		          }
+				  String tel = scanner.nextLine();
+				
 				
 				demande.setCategoryID(cateid);
 				
@@ -57,7 +75,7 @@ public class ParticipationController {
 					
 					if(idu == iduser && idc == cateid) {
 						
-						System.out.println("Utilisateur déjà Participer dans cette catégorie");
+						System.out.println("***************** Utilisateur déjà Participer dans cette catégorie *******************************");
 						
 						
 					} 
@@ -72,13 +90,13 @@ public class ParticipationController {
 						
 					System.out.println("date début");
 						
-					String td = scanner.next();
+					String td = scanner1.next();
 					
 					demande.setTimeStart(td);
 						
 					System.out.println("date fin");
 						
-					String tf = scanner.next();
+					String tf = scanner1.next();
 					
 					demande.setTimeEnd(tf);
 						
@@ -90,7 +108,7 @@ public class ParticipationController {
 						
 						if(row1 > 0) {
 							
-							System.out.println("votre participation été ajouté");
+							System.out.println(" ~~~~~~~~~~~~~~~~~~~~~~~~~~~>>> votre participation été ajouté <<<~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 							
 							String sql3 = "select * from users where user_id = '"+ iduser +"'";
 							
@@ -98,13 +116,23 @@ public class ParticipationController {
 							
 							ResultSet res3 = stm3.executeQuery(sql3);
 							
-							while (res3.next()) {
+							if (res3.next()) {
 								
 								System.out.println("votre informations: \n Your id :"+res3.getString("user_id")+" \n Your firstName : "+res3.getString("first_name")+"\n Your LastName :"+res3.getString("last_name")+" \n Your Email:"+res3.getString("email")+"\n Your Phone : "+res3.getString("phone"));
+							}
+							else {System.out.println("********************* Id user utilisateur introuvable **********************");
 							}
 						
 						}
 					
+				}
+				
+				
+				
+				
+				}else {
+					System.out.println("********************* Id user utilisateur introuvable **********************");
+					AddParti ();
 				}
 				
 			}
